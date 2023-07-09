@@ -94,6 +94,7 @@ Suppress lints whenever the suggested change would cause breakage for other crat
 * [`linkedlist`](https://rust-lang.github.io/rust-clippy/master/index.html#linkedlist)
 * [`rc_mutex`](https://rust-lang.github.io/rust-clippy/master/index.html#rc_mutex)
 * [`unnecessary_box_returns`](https://rust-lang.github.io/rust-clippy/master/index.html#unnecessary_box_returns)
+* [`single_call_fn`](https://rust-lang.github.io/rust-clippy/master/index.html#single_call_fn)
 
 
 ## `msrv`
@@ -107,6 +108,7 @@ The minimum rust version that the project supports
 * [`manual_str_repeat`](https://rust-lang.github.io/rust-clippy/master/index.html#manual_str_repeat)
 * [`cloned_instead_of_copied`](https://rust-lang.github.io/rust-clippy/master/index.html#cloned_instead_of_copied)
 * [`redundant_field_names`](https://rust-lang.github.io/rust-clippy/master/index.html#redundant_field_names)
+* [`option_map_unwrap_or`](https://rust-lang.github.io/rust-clippy/master/index.html#option_map_unwrap_or)
 * [`redundant_static_lifetimes`](https://rust-lang.github.io/rust-clippy/master/index.html#redundant_static_lifetimes)
 * [`filter_map_next`](https://rust-lang.github.io/rust-clippy/master/index.html#filter_map_next)
 * [`checked_conversions`](https://rust-lang.github.io/rust-clippy/master/index.html#checked_conversions)
@@ -146,6 +148,9 @@ The minimum rust version that the project supports
 * [`manual_is_ascii_check`](https://rust-lang.github.io/rust-clippy/master/index.html#manual_is_ascii_check)
 * [`manual_rem_euclid`](https://rust-lang.github.io/rust-clippy/master/index.html#manual_rem_euclid)
 * [`manual_retain`](https://rust-lang.github.io/rust-clippy/master/index.html#manual_retain)
+* [`type_repetition_in_bounds`](https://rust-lang.github.io/rust-clippy/master/index.html#type_repetition_in_bounds)
+* [`tuple_array_conversions`](https://rust-lang.github.io/rust-clippy/master/index.html#tuple_array_conversions)
+* [`manual_try_fold`](https://rust-lang.github.io/rust-clippy/master/index.html#manual_try_fold)
 
 
 ## `cognitive-complexity-threshold`
@@ -158,9 +163,19 @@ The maximum cognitive complexity a function can have
 * [`cognitive_complexity`](https://rust-lang.github.io/rust-clippy/master/index.html#cognitive_complexity)
 
 
+## `excessive-nesting-threshold`
+The maximum amount of nesting a block can reside in
+
+**Default Value:** `0` (`u64`)
+
+---
+**Affected lints:**
+* [`excessive_nesting`](https://rust-lang.github.io/rust-clippy/master/index.html#excessive_nesting)
+
+
 ## `disallowed-names`
 The list of disallowed names to lint about. NB: `bar` is not here since it has legitimate uses. The value
-`".."` can be used as part of the list to indicate, that the configured values should be appended to the
+`".."` can be used as part of the list to indicate that the configured values should be appended to the
 default configuration of Clippy. By default, any configuration will replace the default value.
 
 **Default Value:** `["foo", "baz", "quux"]` (`Vec<String>`)
@@ -199,7 +214,7 @@ default configuration of Clippy. By default, any configuration will replace the 
 
 Default list:
 
-**Default Value:** `["KiB", "MiB", "GiB", "TiB", "PiB", "EiB", "DirectX", "ECMAScript", "GPLv2", "GPLv3", "GitHub", "GitLab", "IPv4", "IPv6", "ClojureScript", "CoffeeScript", "JavaScript", "PureScript", "TypeScript", "NaN", "NaNs", "OAuth", "GraphQL", "OCaml", "OpenGL", "OpenMP", "OpenSSH", "OpenSSL", "OpenStreetMap", "OpenDNS", "WebGL", "TensorFlow", "TrueType", "iOS", "macOS", "FreeBSD", "TeX", "LaTeX", "BibTeX", "BibLaTeX", "MinGW", "CamelCase"]` (`Vec<String>`)
+**Default Value:** `["KiB", "MiB", "GiB", "TiB", "PiB", "EiB", "DirectX", "ECMAScript", "GPLv2", "GPLv3", "GitHub", "GitLab", "IPv4", "IPv6", "ClojureScript", "CoffeeScript", "JavaScript", "PureScript", "TypeScript", "WebAssembly", "NaN", "NaNs", "OAuth", "GraphQL", "OCaml", "OpenGL", "OpenMP", "OpenSSH", "OpenSSL", "OpenStreetMap", "OpenDNS", "WebGL", "TensorFlow", "TrueType", "iOS", "macOS", "FreeBSD", "TeX", "LaTeX", "BibTeX", "BibLaTeX", "MinGW", "CamelCase"]` (`Vec<String>`)
 
 ---
 **Affected lints:**
@@ -326,6 +341,16 @@ The maximum allowed size for arrays on the stack
 **Affected lints:**
 * [`large_stack_arrays`](https://rust-lang.github.io/rust-clippy/master/index.html#large_stack_arrays)
 * [`large_const_arrays`](https://rust-lang.github.io/rust-clippy/master/index.html#large_const_arrays)
+
+
+## `stack-size-threshold`
+The maximum allowed stack size for functions in bytes
+
+**Default Value:** `512000` (`u64`)
+
+---
+**Affected lints:**
+* [`large_stack_frames`](https://rust-lang.github.io/rust-clippy/master/index.html#large_stack_frames)
 
 
 ## `vec-box-size-threshold`
@@ -641,5 +666,67 @@ The byte size a `T` in `Box<T>` can have, below which it triggers the `clippy::u
 ---
 **Affected lints:**
 * [`unnecessary_box_returns`](https://rust-lang.github.io/rust-clippy/master/index.html#unnecessary_box_returns)
+
+
+## `allow-private-module-inception`
+Whether to allow module inception if it's not public.
+
+**Default Value:** `false` (`bool`)
+
+---
+**Affected lints:**
+* [`module_inception`](https://rust-lang.github.io/rust-clippy/master/index.html#module_inception)
+
+
+## `allowed-idents-below-min-chars`
+Allowed names below the minimum allowed characters. The value `".."` can be used as part of
+the list to indicate, that the configured values should be appended to the default
+configuration of Clippy. By default, any configuration will replace the default value.
+
+**Default Value:** `{"j", "z", "i", "y", "n", "x", "w"}` (`rustc_data_structures::fx::FxHashSet<String>`)
+
+---
+**Affected lints:**
+* [`min_ident_chars`](https://rust-lang.github.io/rust-clippy/master/index.html#min_ident_chars)
+
+
+## `min-ident-chars-threshold`
+Minimum chars an ident can have, anything below or equal to this will be linted.
+
+**Default Value:** `1` (`u64`)
+
+---
+**Affected lints:**
+* [`min_ident_chars`](https://rust-lang.github.io/rust-clippy/master/index.html#min_ident_chars)
+
+
+## `accept-comment-above-statement`
+Whether to accept a safety comment to be placed above the statement containing the `unsafe` block
+
+**Default Value:** `false` (`bool`)
+
+---
+**Affected lints:**
+* [`undocumented_unsafe_blocks`](https://rust-lang.github.io/rust-clippy/master/index.html#undocumented_unsafe_blocks)
+
+
+## `accept-comment-above-attributes`
+Whether to accept a safety comment to be placed above the attributes for the `unsafe` block
+
+**Default Value:** `false` (`bool`)
+
+---
+**Affected lints:**
+* [`undocumented_unsafe_blocks`](https://rust-lang.github.io/rust-clippy/master/index.html#undocumented_unsafe_blocks)
+
+
+## `allow-one-hash-in-raw-strings`
+Whether to allow `r#""#` when `r""` can be used
+
+**Default Value:** `false` (`bool`)
+
+---
+**Affected lints:**
+* [`unnecessary_raw_string_hashes`](https://rust-lang.github.io/rust-clippy/master/index.html#unnecessary_raw_string_hashes)
 
 

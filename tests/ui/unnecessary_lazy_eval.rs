@@ -1,9 +1,11 @@
 //@run-rustfix
-//@aux-build: proc_macros.rs
+//@aux-build: proc_macros.rs:proc-macro
 #![warn(clippy::unnecessary_lazy_evaluations)]
 #![allow(clippy::redundant_closure)]
 #![allow(clippy::bind_instead_of_map)]
 #![allow(clippy::map_identity)]
+#![allow(clippy::needless_borrow)]
+#![allow(clippy::unnecessary_literal_unwrap)]
 
 use std::ops::Deref;
 
@@ -81,6 +83,9 @@ fn main() {
     let _ = Some(1).unwrap_or_else(|| *r);
     let b = Box::new(1);
     let _ = Some(1).unwrap_or_else(|| *b);
+    // Should lint - Builtin deref through autoderef
+    let _ = Some(1).as_ref().unwrap_or_else(|| &r);
+    let _ = Some(1).as_ref().unwrap_or_else(|| &b);
 
     // Cases when unwrap is not called on a simple variable
     let _ = Some(10).unwrap_or_else(|| 2);
@@ -112,6 +117,9 @@ fn main() {
 
     let _ = Some(1).unwrap_or_else(|| *Issue10437); // Issue10437 has a deref impl
     let _ = Some(1).unwrap_or(*Issue10437);
+
+    let _ = Some(1).as_ref().unwrap_or_else(|| &Issue10437);
+    let _ = Some(1).as_ref().unwrap_or(&Issue10437);
 
     // Should not lint - bool
     let _ = (0 == 1).then(|| Issue9427(0)); // Issue9427 has a significant drop
